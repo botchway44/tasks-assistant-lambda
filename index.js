@@ -15,7 +15,8 @@ function close(sessionAttributes, fulfillmentState, message) {
 
 // --------------- Events -----------------------
 function dispatch(intentRequest, callback) {
-    console.log(`request received for userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.intentName}`);
+    // console.log(`request received for userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.intentName}`);
+    console.log(`request received for ${intentRequest}`);
 
     const sessionAttributes = intentRequest.sessionAttributes;
     const slots = intentRequest.currentIntent.slots;

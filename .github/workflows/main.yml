@@ -23,8 +23,7 @@ jobs:
       - name: Install zip
         uses: montudor/action-zip@v1
         with:
-          working-directory: ./dist
-          args: zip -qq -r ../bundle.zip ./ ../package.json
+          args: zip -qq  ./bundle.zip ./dist/ ./package.json
 
       - name: default deploy
         uses: appleboy/lambda-action@master

@@ -1,7 +1,10 @@
 // 'use strict';
 
+import { INTENTS } from "./constants";
 import { ConfirmationState, State } from "./dto";
 import { createCloseResponseDTO } from "./utils/response-utils"
+
+
 
 
 // Works for the V2 version of the Lex SDK client
@@ -36,15 +39,19 @@ function dispatch(intentRequest: any, callback: any) {
     // var moviename = slots.name;
     // var whatInfo = slots.summary;
     // console.log(`request received for Slots=${moviename}, ${whatInfo}`);
-    callback(
-        close(
-            sessionAttributes,
-            slots,
-            intentName,
-            'Confirmed',
-            'Fulfilled',
-            `Thanks for using this service`
-        ));
+
+
+    if (intentName === INTENTS.MAKEAPPOINTMENT) {
+        callback(
+            close(
+                sessionAttributes,
+                slots,
+                intentName,
+                'Confirmed',
+                'Fulfilled',
+                `Thanks for using this service`
+            ));
+    }
 
 
 }

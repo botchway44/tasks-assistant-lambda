@@ -21,9 +21,12 @@ jobs:
         env:
           CI: true
       - name: Install zip
-        uses: montudor/action-zip@v1
+      - uses: papeloto/action-zip@v1
         with:
-          args: zip -qq  ./bundle.zip ./dist/ ./package.json
+          with:
+            files: dist/ package.json
+            recursive: false
+            dest: bundle.zip
 
       - name: default deploy
         uses: appleboy/lambda-action@master

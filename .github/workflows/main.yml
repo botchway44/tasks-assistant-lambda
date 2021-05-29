@@ -16,13 +16,14 @@ jobs:
       - name: npm install and build
         run: |
           npm ci --if-present
+          npm install -g typescript
           npm run build --if-present
         env:
           CI: true
       - name: zip
         uses: montudor/action-zip@v0.1.0
         with:
-          args: zip -qq -r ./bundle.zip ./
+          args: zip -qq -r ./bundle.zip ./dist
       - name: default deploy
         uses: appleboy/lambda-action@master
         with:

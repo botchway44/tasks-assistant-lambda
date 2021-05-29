@@ -32,7 +32,7 @@ export const createCloseResponseDTO = (
     sessionAttributes: any,
     slots: any,
     intentName: string,
-    state: State,
+    fulfilmentState: State,
     confirmationState: ConfirmationState,
     message: string
 ) => new CloseResquestResponse(
@@ -43,7 +43,7 @@ export const createCloseResponseDTO = (
             intentName,
             confirmationState,
             slots,
-            state
+            fulfilmentState
         )
     ),
     new MessageBuilder(new Message(message)).allMessages()

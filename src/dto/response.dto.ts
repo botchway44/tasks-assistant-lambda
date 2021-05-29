@@ -8,23 +8,27 @@ const allInvocationSource = ["DialogCodeHook", "FulfillmentCodeHook"]
 export type InvocationSource = typeof allInvocationSource[number];
 
 
-const allInputMode = ["DTMF", "Speech", "Text"]
-export type InputMode = typeof allInputMode[number];
+// const allInputMode = ["DTMF", "Speech", "Text"];
+// export type InputMode = typeof allInputMode[number];
+export type InputMode = "DTMF" | "Speech" | "Text";
 
 
-const allConfirmationState = ["Confirmed", "Denied", "None"]
-export type ConfirmationState = typeof allConfirmationState[number];
+// const allConfirmationState = ["Confirmed", "Denied", "None"]
+// export type ConfirmationState = typeof allConfirmationState[number];
+export type ConfirmationState = "Confirmed" | "Denied" | "None";
 
-const allResponseContentType = ["CustomPayload ", " ImageResponseCard ", " PlainText ", " SSML"]
-export type ResponseContentType = typeof allResponseContentType[number];
+// const allResponseContentType = ["CustomPayload", "ImageResponseCard", "PlainText", "SSML"]
+// export type ResponseContentType = typeof allResponseContentType[number];
+export type ResponseContentType = "CustomPayload" | "ImageResponseCard" | "PlainText" | "SSML";
 
 // export type ResponseContentType = "CustomPayload " | " ImageResponseCard " | " PlainText " | " SSML";
-const allDialogActionType = ["Close ", " ConfirmIntent ", " Delegate ", " ElicitIntent ", " ElicitSlot"]
-export type DialogActionType = typeof allDialogActionType[number];
+// const allDialogActionType = ["Close", "ConfirmIntent", "Delegate", "ElicitIntent", "ElicitSlot"]
+// export type DialogActionType = typeof allDialogActionType[number];
+export type DialogActionType = "Close" | "ConfirmIntent" | "Delegate" | "ElicitIntent" | "ElicitSlot";
 
-const allStates = ["Failed", "Fulfilled", "InProgress", "ReadyForFulfillment"]
-export type State = typeof allStates[number];
-// export type State = "Failed" | "Fulfilled" | "InProgress" | "ReadyForFulfillment";
+// const allStates = ["Failed", "Fulfilled", "InProgress", "ReadyForFulfillment"]
+// export type State = typeof allStates[number];
+export type State = "Failed" | "Fulfilled" | "InProgress" | "ReadyForFulfillment";
 
 
 

@@ -1,30 +1,13 @@
 // 'use strict';
 
+import { ConfirmationState, State } from "./dto";
+import { createCloseResponseDTO } from "./utils/response-utils"
+
 
 // Works for the V2 version of the Lex SDK client
 // Close dialog with the customer, reporting fulfillmentState of Failed or Fulfilled ("Thanks, your pizza will arrive in 20 minutes")
-function close(sessionAttributes: any, slots: any, intentName: string, fulfillmentState: string, message: string) {
-    return {
-        "sessionState": {
-            "sessionAttributes": sessionAttributes,
-            "dialogAction": {
-                "type": "Close"
-            },
-            "intent": {
-                "confirmationState": "Confirmed",
-                "name": intentName,
-                "slots": slots,
-                "state": fulfillmentState
-            }
-        },
-        "messages": [
-            {
-                "contentType": "PlainText",
-                "content": message,
-            }
-        ],
-
-    };
+function close(sessionAttributes: any, slots: any, intentName: string, confirmationState: ConfirmationState, fulfillmentState: State, message: string) {
+    return createCloseResponseDTO(sessionAttributes, slots, intentName, fulfillmentState, confirmationState, message);
 }
 
 
@@ -58,6 +41,7 @@ function dispatch(intentRequest: any, callback: any) {
             sessionAttributes,
             slots,
             intentName,
+            'Confirmed',
             'Fulfilled',
             `Thanks for using this service`
         ));

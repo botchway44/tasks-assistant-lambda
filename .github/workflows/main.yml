@@ -26,8 +26,6 @@ jobs:
           working-directory: ./dist
           args: zip -qq -r ../bundle.zip ./ ../package.json
           working-directory: ../
-
-
       - name: default deploy
         uses: appleboy/lambda-action@master
         with:

@@ -24,6 +24,81 @@ function delegate(session_attributes: any, slots: any) {
 }
 
 
+/**
+ * Handles all tasks intent which returns all tasks to users
+ * @param intentRequest 
+ * @param callback 
+ */
+async function handleAllTasksIntent(intentRequest: any, callback: any) {
+    const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
+    const slots = intentRequest.interpretations[0].intent.slots || {};
+    const intentName = intentRequest.interpretations[0].intent.name;
+    // var moviename = slots.name;
+    // var whatInfo = slots.summary;
+    console.log(`Session sessionAttributes = ${sessionAttributes}`);
+
+    callback(
+        close(
+            sessionAttributes,
+            slots,
+            intentName,
+            'Confirmed',
+            'Fulfilled',
+            `Here are all your tasks list`
+        ));
+
+}
+
+/**
+ * Handles create Task intent
+ * @param intentRequest 
+ * @param callback 
+ */
+async function handleAddTasksIntent(intentRequest: any, callback: any) {
+
+    const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
+    const slots = intentRequest.interpretations[0].intent.slots || {};
+    const intentName = intentRequest.interpretations[0].intent.name;
+    // var moviename = slots.name;
+    // var whatInfo = slots.summary;
+    console.log(`Session sessionAttributes = ${sessionAttributes}`);
+
+
+    // Create a task list and insert asynchronously
+    const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
+
+    // Add task to mongo Client
+    await mongoClient.addTask(new_task).then(
+        () => {
+
+            // callback to fullfill the intent list
+            callback(
+                close(
+                    sessionAttributes,
+                    slots,
+                    intentName,
+                    'Confirmed',
+                    'Fulfilled',
+                    `Task Added to your task list`
+                ));
+        },
+        (err) => {
+
+            callback(
+                close(
+                    sessionAttributes,
+                    slots,
+                    intentName,
+                    'Confirmed',
+                    'Fulfilled',
+                    `I had trouble adding to your task list`
+                ));
+        }
+    );
+
+
+}
+
 
 // --------------- Events -----------------------
 async function dispatch(intentRequest: any, callback: any) {
@@ -38,42 +113,8 @@ async function dispatch(intentRequest: any, callback: any) {
     // var whatInfo = slots.summary;
     console.log(`Session sessionAttributes = ${sessionAttributes}`);
 
-    if (intentName === INTENTS.ADDTASKS) {
-        // Create a task list and insert asynchronously
-        const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
-
-        // Add task to mongo Client
-        await mongoClient.addTask(new_task).then(
-            () => {
-                console.log("Creating task");
-
-                // callback to fullfill the intent list
-                callback(
-                    close(
-                        sessionAttributes,
-                        slots,
-                        intentName,
-                        'Confirmed',
-                        'Fulfilled',
-                        `Task Added to your task list`
-                    ));
-            },
-            (err) => {
-                console.log("Failed task");
-
-                callback(
-                    close(
-                        sessionAttributes,
-                        slots,
-                        intentName,
-                        'Confirmed',
-                        'Fulfilled',
-                        `I had trouble adding to your task list`
-                    ));
-            }
-        );
-
-    }
+    if (intentName === INTENTS.ADDTASKS) await handleAddTasksIntent(intentRequest, callback);
+    else if (intentName === INTENTS.ALLTASKS) await handleAllTasksIntent(intentRequest, callback);
 
 
 }

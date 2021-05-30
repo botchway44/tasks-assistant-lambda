@@ -15,7 +15,7 @@ export class MongoClientConnection {
 
         console.log(this.mongo_url)
         return new Promise((resolve, reject) => {
-            MongoClient.connect(this.mongo_url, { useNewUrlParser: true }, async (
+            MongoClient.connect(this.mongo_url, { useUnifiedTopology: true }, async (
                 err: any,
                 client: any
             ) => {

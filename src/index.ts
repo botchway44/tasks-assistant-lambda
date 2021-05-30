@@ -26,7 +26,7 @@ function delegate(session_attributes: any, slots: any) {
 
 
 // --------------- Events -----------------------
-function dispatch(intentRequest: any, callback: any) {
+async function dispatch(intentRequest: any, callback: any) {
     // console.log(`request received for userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.intentName}`);
     console.log(` ${JSON.stringify(intentRequest)}`);
 
@@ -41,6 +41,8 @@ function dispatch(intentRequest: any, callback: any) {
     if (intentName === INTENTS.ADDTASKS) {
         // Create a task list and insert asynchronously
         const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
+
+        // Add task to mongo Client
         mongoClient.addTask(new_task).then(() => {
             // callback to fullfill the intent list
             callback(
@@ -52,7 +54,19 @@ function dispatch(intentRequest: any, callback: any) {
                     'Fulfilled',
                     `Task Added to your task list`
                 ));
-        })
+        },
+            (err) => {
+                callback(
+                    close(
+                        sessionAttributes,
+                        slots,
+                        intentName,
+                        'Confirmed',
+                        'Fulfilled',
+                        `I had trouble adding to your task list`
+                    ));
+            }
+        )
 
     }
 

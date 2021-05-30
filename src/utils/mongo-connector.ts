@@ -1,23 +1,35 @@
 const MongoClient = require('mongodb');
 const ObjectID = require('mongodb').ObjectID;
-const keys = require('../config/keys');
+require("dotenv").config();
 
 export class MongoClientConnection {
     public tasks_db_name = 'tasks';
     tasks_collection: any = null;
-    mongo_url = keys.db;
+    mongo_url = process.env.MONGODB_URL;
 
-    db_name = 'heroku_66680pp0';
+    db_name = 'LexVoiceApp';
 
     connect() {
-        MongoClient.connect(this.mongo_url, { useNewUrlParser: true }, async (
-            err: any,
-            client: any
-        ) => {
-            if (err) throw err;
-            console.log('connected to database');
-            this.tasks_collection = await client.db(this.db_name).collection(this.tasks_db_name);
+
+        console.log(this.mongo_url)
+        return new Promise((resolve, reject) => {
+            MongoClient.connect(this.mongo_url, { useNewUrlParser: true }, async (
+                err: any,
+                client: any
+            ) => {
+                // throw error
+                if (err) { reject(err); throw err; };
+
+                // log connected
+                console.log('connected to database');
+                this.tasks_collection = await client.db(this.db_name).collection(this.tasks_db_name);
+
+                resolve(true)
+            });
         });
+
+
+
     }
 
     async addTask(task: any) {

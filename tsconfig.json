@@ -10,7 +10,10 @@
         "sourceMap": false,
         "outDir": "dist",
         "baseUrl": "./",
-        "allowJs": true
+        "allowJs": true,
+        "types": [
+            "node"
+        ]
     },
     "exclude": [
         "node_modules",

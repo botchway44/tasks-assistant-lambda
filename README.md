@@ -1,4 +1,4 @@
-# Taskr:
+# Taskr
 
 <!--- Replace <OWNER> with your Github Username and <REPOSITORY> with the name of your repository. -->
 <!--- You can find both of these in the url bar when you open your repository in github. -->
@@ -7,9 +7,11 @@
 
 <!--- Describe your app in one or two sentences -->
 
-Amazons Lex conversational app
+Amazons Lex conversational task manager
 
 This code only works with [version 2](https://docs.aws.amazon.com/lex/index.html) from the Developer Guide since there is a difference in the response payload in each version.
+
+Try it out on [facebook](https://web.facebook.com/Taskr) & [Slack](https://join.slack.com/t/slack-kpl6955/shared_invite/zt-r6vp4xkh-T66KquZE1dlgA258c2MA7A)
 
 ## License
 

@@ -1,5 +1,7 @@
 export const INTENTS = {
     ADDTASKS: 'AddTaskIntent',
-    ALLTASKS: 'AllTasksIntent'
+    ALLTASKS: 'AllTasksIntent',
+    COMPLETETASK: 'CompleteTaskIntent',
+    COMPLETEDTASKS: 'CompletedTaskIntent',
 }
 

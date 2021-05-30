@@ -1,5 +1,5 @@
 import { ConfirmationState, ITask, State } from "./dto";
-import { createCloseResponseDTO, CreateNewTask, INTENTS } from "./utils"
+import { createCloseResponseDTO, CreateNewTask, filter, INTENTS } from "./utils"
 import { MongoClientConnection } from "./utils/"
 
 // init a new MongoClient
@@ -24,6 +24,11 @@ function delegate(session_attributes: any, slots: any) {
 }
 
 
+/**
+ * 
+ * @param  tasks - All users task
+ * @returns a string list of messages
+ */
 function buidTasksList(tasks: ITask[]): string[] {
 
     const messages = [
@@ -49,8 +54,7 @@ async function handleAllTasksIntent(intentRequest: any, callback: any) {
     const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
     const slots = intentRequest.interpretations[0].intent.slots || {};
     const intentName = intentRequest.interpretations[0].intent.name;
-    // var moviename = slots.name;
-    // var whatInfo = slots.summary;
+    
     console.log(`Session sessionAttributes = ${sessionAttributes}`);
 
     const tasks: ITask[] = await mongoClient.getAllTasks();
@@ -93,6 +97,7 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
     const slots = intentRequest.interpretations[0].intent.slots || {};
     const intentName = intentRequest.interpretations[0].intent.name;
 
+    // obtain slots
     const { CompleteByDate, Time, Name } = intentRequest.sessionState.intent.slots;
     const name = Name.value.interpretedValue;
     const due = CompleteByDate.value.interpretedValue;
@@ -135,20 +140,39 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
 }
 
 
-// --------------- Events -----------------------
-async function dispatch(intentRequest: any, callback: any) {
-    // console.log(`request received for userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.intentName}`);
-    // console.log(` ${JSON.stringify(intentRequest)}`);
 
-    // console.log("Request received");
+async function handleCompleteTaskIntent(intentRequest: any, callback: any) {
+    // log request to know exactly what it contains
+
     const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
     const slots = intentRequest.interpretations[0].intent.slots || {};
     const intentName = intentRequest.interpretations[0].intent.name;
-    // var moviename = slots.name;
-    // var whatInfo = slots.summary;
+
+    const { Name } = intentRequest.sessionState.intent.slots;
+    const name = Name.value.interpretedValue;
+
+    // get all tasks and filter for the tasks with the name on it
+    const tasks: ITask[] = await mongoClient.getAllTasks();
+    const filteredTasks: ITask[] = filter(name, tasks);
+
+    // if task is > 0, send a message to ask of which task to complete
+
+
+    // else ask user to verify if thats the task to complete
+}
+
+
+// --------------- Events -----------------------
+async function dispatch(intentRequest: any, callback: any) {
+    // console.log(` ${JSON.stringify(intentRequest)}`);
+
+    const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
+    const slots = intentRequest.interpretations[0].intent.slots || {};
+    const intentName = intentRequest.interpretations[0].intent.name;
 
     if (intentName === INTENTS.ADDTASKS) await handleAddTasksIntent(intentRequest, callback);
     else if (intentName === INTENTS.ALLTASKS) await handleAllTasksIntent(intentRequest, callback);
+    else if (intentName === INTENTS.COMPLETETASK) await handleCompleteTaskIntent(intentRequest, callback);
 
 }
 

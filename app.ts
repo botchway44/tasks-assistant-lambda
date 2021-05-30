@@ -26,7 +26,7 @@ app.get("/all", async (req: any, res: any) => {
 
 
 //index route
-app.post("/transaction", (req: any, res: any) => {
+app.post("/add", (req: any, res: any) => {
     const body = req.body;
     res.status("200").json({});
 });

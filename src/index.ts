@@ -2,14 +2,28 @@ import { ConfirmationState, ITask, State } from "./dto";
 import { createCloseResponseDTO, CreateNewTask, filter, INTENTS } from "./utils"
 import { MongoClientConnection } from "./utils/"
 
+
+/**
+ * Works for the V2 version of the Lex SDK client
+ */
+
 // init a new MongoClient
 let mongoClient: MongoClientConnection;
 
-// Works for the V2 version of the Lex SDK client
-// Close dialog with the customer, reporting fulfillmentState of Failed or Fulfilled ("Thanks, your pizza will arrive in 20 minutes")
+/**
+ * Close dialog with the customer, reporting fulfillmentState of Failed or Fulfilled and the attached set of messages
+ * @param sessionAttributes 
+ * @param slots 
+ * @param intentName 
+ * @param confirmationState 
+ * @param fulfillmentState 
+ * @param message 
+ * @returns 
+ */
 function close(sessionAttributes: any, slots: any, intentName: string, confirmationState: ConfirmationState, fulfillmentState: State, message: string[]) {
     return createCloseResponseDTO(sessionAttributes, slots, intentName, fulfillmentState, confirmationState, message);
 }
+
 
 
 function delegate(session_attributes: any, slots: any) {
@@ -54,7 +68,7 @@ async function handleAllTasksIntent(intentRequest: any, callback: any) {
     const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
     const slots = intentRequest.interpretations[0].intent.slots || {};
     const intentName = intentRequest.interpretations[0].intent.name;
-    
+
     console.log(`Session sessionAttributes = ${sessionAttributes}`);
 
     const tasks: ITask[] = await mongoClient.getAllTasks();
@@ -87,7 +101,7 @@ async function handleAllTasksIntent(intentRequest: any, callback: any) {
 }
 
 /**
- * Handles create Task intent
+ * Handles creating Task intent
  * @param intentRequest 
  * @param callback 
  */
@@ -140,7 +154,11 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
 }
 
 
-
+/**
+ *  Handles Completing a Specified Task
+ * @param intentRequest 
+ * @param callback 
+ */
 async function handleCompleteTaskIntent(intentRequest: any, callback: any) {
     // log request to know exactly what it contains
 

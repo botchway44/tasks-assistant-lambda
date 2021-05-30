@@ -41,7 +41,10 @@ function dispatch(intentRequest: any, callback: any) {
     // console.log(`request received for Slots=${moviename}, ${whatInfo}`);
 
 
-    if (intentName === INTENTS.MAKEAPPOINTMENT) {
+    if (intentName === INTENTS.ADDTASKS) {
+        // Create a task list and insert asynchronously
+
+        // callback to fullfill the intent list
         callback(
             close(
                 sessionAttributes,

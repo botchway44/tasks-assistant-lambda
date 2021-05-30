@@ -28,7 +28,7 @@ function delegate(session_attributes: any, slots: any) {
 // --------------- Events -----------------------
 async function dispatch(intentRequest: any, callback: any) {
     // console.log(`request received for userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.intentName}`);
-    console.log(` ${JSON.stringify(intentRequest)}`);
+    // console.log(` ${JSON.stringify(intentRequest)}`);
 
     // console.log("Request received");
     const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
@@ -43,20 +43,21 @@ async function dispatch(intentRequest: any, callback: any) {
         const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
 
         // Add task to mongo Client
-        await mongoClient.addTask(new_task).then(() => {
-            console.log("Creating task");
+        await mongoClient.addTask(new_task).then(
+            () => {
+                console.log("Creating task");
 
-            // callback to fullfill the intent list
-            callback(
-                close(
-                    sessionAttributes,
-                    slots,
-                    intentName,
-                    'Confirmed',
-                    'Fulfilled',
-                    `Task Added to your task list`
-                ));
-        },
+                // callback to fullfill the intent list
+                callback(
+                    close(
+                        sessionAttributes,
+                        slots,
+                        intentName,
+                        'Confirmed',
+                        'Fulfilled',
+                        `Task Added to your task list`
+                    ));
+            },
             (err) => {
                 console.log("Failed task");
 
@@ -70,7 +71,7 @@ async function dispatch(intentRequest: any, callback: any) {
                         `I had trouble adding to your task list`
                     ));
             }
-        )
+        );
 
     }
 
@@ -88,7 +89,7 @@ export const handler = async (event: any, context: any, callback: any) => {
     await mongoClient.connect()
 
     try {
-        dispatch(event,
+        await dispatch(event,
             (response: any) => {
                 callback(null, response);
             });

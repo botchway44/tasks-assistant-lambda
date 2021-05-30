@@ -3,7 +3,7 @@
 <!--- Replace <OWNER> with your Github Username and <REPOSITORY> with the name of your repository. -->
 <!--- You can find both of these in the url bar when you open your repository in github. -->
 
-![Workflow result](https://github.com/botchway44/tasks-assistant-lambda/workflows/main.yml/badge.svg)
+[![deploy to lambda](https://github.com/botchway44/tasks-assistant-lambda/actions/workflows/main.yml/badge.svg)](https://github.com/botchway44/tasks-assistant-lambda/actions/workflows/main.yml)
 
 <!--- Describe your app in one or two sentences -->
 

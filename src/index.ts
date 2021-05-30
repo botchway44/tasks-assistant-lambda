@@ -1,9 +1,5 @@
-// 'use strict';
-
-import { INTENTS } from "./constants";
 import { ConfirmationState, State } from "./dto";
-import { createCloseResponseDTO } from "./utils/response-utils"
-
+import { createCloseResponseDTO, INTENTS } from "./utils"
 
 
 
@@ -40,7 +36,6 @@ function dispatch(intentRequest: any, callback: any) {
     // var whatInfo = slots.summary;
     // console.log(`request received for Slots=${moviename}, ${whatInfo}`);
 
-
     if (intentName === INTENTS.ADDTASKS) {
         // Create a task list and insert asynchronously
 
@@ -52,7 +47,7 @@ function dispatch(intentRequest: any, callback: any) {
                 intentName,
                 'Confirmed',
                 'Fulfilled',
-                `Thanks for using this service`
+                `Task Added to your task list`
             ));
     }
 

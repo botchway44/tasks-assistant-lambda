@@ -30,7 +30,7 @@ async function dispatch(intentRequest: any, callback: any) {
     // console.log(`request received for userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.intentName}`);
     console.log(` ${JSON.stringify(intentRequest)}`);
 
-    console.log("Request received");
+    // console.log("Request received");
     const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
     const slots = intentRequest.interpretations[0].intent.slots || {};
     const intentName = intentRequest.interpretations[0].intent.name;
@@ -43,7 +43,9 @@ async function dispatch(intentRequest: any, callback: any) {
         const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
 
         // Add task to mongo Client
-        mongoClient.addTask(new_task).then(() => {
+        await mongoClient.addTask(new_task).then(() => {
+            console.log("Creating task");
+
             // callback to fullfill the intent list
             callback(
                 close(
@@ -56,6 +58,8 @@ async function dispatch(intentRequest: any, callback: any) {
                 ));
         },
             (err) => {
+                console.log("Failed task");
+
                 callback(
                     close(
                         sessionAttributes,

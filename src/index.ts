@@ -61,7 +61,7 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
     const intentName = intentRequest.interpretations[0].intent.name;
     // var moviename = slots.name;
     // var whatInfo = slots.summary;
-    console.log(`Session sessionAttributes = ${sessionAttributes}`);
+    console.log(`Session sessionAttributes = ${JSON.stringify(sessionAttributes)}`);
 
 
     // Create a task list and insert asynchronously
@@ -111,7 +111,6 @@ async function dispatch(intentRequest: any, callback: any) {
     const intentName = intentRequest.interpretations[0].intent.name;
     // var moviename = slots.name;
     // var whatInfo = slots.summary;
-    console.log(`Session sessionAttributes = ${sessionAttributes}`);
 
     if (intentName === INTENTS.ADDTASKS) await handleAddTasksIntent(intentRequest, callback);
     else if (intentName === INTENTS.ALLTASKS) await handleAllTasksIntent(intentRequest, callback);

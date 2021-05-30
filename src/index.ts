@@ -59,17 +59,19 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
     const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};
     const slots = intentRequest.interpretations[0].intent.slots || {};
     const intentName = intentRequest.interpretations[0].intent.name;
-    // var moviename = slots.name;
-    // var whatInfo = slots.summary;
-    console.log(`Session sessionAttributes = ${JSON.stringify(sessionAttributes)}`);
 
-
+    const { CompleteByDate, Time, Name } = intentRequest.sessionState.intent.slots;
+    const name = Name.value.interpretedValue;
+    const due = CompleteByDate.value.interpretedValue;
+    const time = Time.value.interpretedValue;
+    // 
     // Create a task list and insert asynchronously
-    const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
+    const new_task = CreateNewTask(name, due, time);
 
     // Add task to mongo Client
     await mongoClient.addTask(new_task).then(
         () => {
+            const message = `Task ${Name.value.originalValue} has been added to your task list.`;
 
             // callback to fullfill the intent list
             callback(
@@ -79,7 +81,7 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
                     intentName,
                     'Confirmed',
                     'Fulfilled',
-                    `Task Added to your task list`
+                    message
                 ));
         },
         (err) => {

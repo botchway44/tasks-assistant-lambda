@@ -6,14 +6,14 @@ export type TaskState = 'NEW' | 'PENDING' | 'COMPLETED';
 export interface ITask {
     id: string,
     name: string
-    description: string
+    description?: string
     status?: TaskState
     due: string
     time: string
 }
 
 export class NewTask implements ITask {
-    constructor(public name: string, public description: string, public due: string, public time: string) {
+    constructor(public name: string, public due: string, public time: string) {
         const uuid = uuidv4();
         this.id = uuid;
 

@@ -34,7 +34,7 @@ export const createCloseResponseDTO = (
     intentName: string,
     fulfilmentState: State,
     confirmationState: ConfirmationState,
-    message: string
+    message: string[]
 ) => new CloseResquestResponse(
     new SessionState(
         sessionAttributes,
@@ -46,5 +46,5 @@ export const createCloseResponseDTO = (
             fulfilmentState
         )
     ),
-    new MessageBuilder(new Message(message)).allMessages()
+    new MessageBuilder(message).allMessages()
 );

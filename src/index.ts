@@ -1,4 +1,4 @@
-import { ConfirmationState, State } from "./dto";
+import { ConfirmationState, ITask, State } from "./dto";
 import { createCloseResponseDTO, CreateNewTask, INTENTS } from "./utils"
 import { MongoClientConnection } from "./utils/"
 
@@ -7,7 +7,7 @@ let mongoClient: MongoClientConnection;
 
 // Works for the V2 version of the Lex SDK client
 // Close dialog with the customer, reporting fulfillmentState of Failed or Fulfilled ("Thanks, your pizza will arrive in 20 minutes")
-function close(sessionAttributes: any, slots: any, intentName: string, confirmationState: ConfirmationState, fulfillmentState: State, message: string) {
+function close(sessionAttributes: any, slots: any, intentName: string, confirmationState: ConfirmationState, fulfillmentState: State, message: string[]) {
     return createCloseResponseDTO(sessionAttributes, slots, intentName, fulfillmentState, confirmationState, message);
 }
 
@@ -24,6 +24,18 @@ function delegate(session_attributes: any, slots: any) {
 }
 
 
+function buidTasksList(tasks: ITask[]): string[] {
+
+    const messages = [];
+
+    for (const task of tasks) {
+        const message = `${task.name} is due ${task.due} at ${task.time} `;
+        messages.push(message)
+    }
+
+    return messages;
+}
+
 /**
  * Handles all tasks intent which returns all tasks to users
  * @param intentRequest 
@@ -37,15 +49,32 @@ async function handleAllTasksIntent(intentRequest: any, callback: any) {
     // var whatInfo = slots.summary;
     console.log(`Session sessionAttributes = ${sessionAttributes}`);
 
-    callback(
-        close(
-            sessionAttributes,
-            slots,
-            intentName,
-            'Confirmed',
-            'Fulfilled',
-            `Here are all your tasks list`
-        ));
+    const tasks: ITask[] = await mongoClient.getAllTasks();
+
+    if (tasks && tasks.length > 0) {
+        const messages = buidTasksList(tasks);
+        callback(
+            close(
+                sessionAttributes,
+                slots,
+                intentName,
+                'Confirmed',
+                'Fulfilled',
+                messages
+            ));
+    } else {
+        callback(
+            close(
+                sessionAttributes,
+                slots,
+                intentName,
+                'Confirmed',
+                'Fulfilled',
+                ['You currently have no tasks', 'Give me a task to add to the list']
+            ));
+    }
+
+
 
 }
 
@@ -81,7 +110,7 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
                     intentName,
                     'Confirmed',
                     'Fulfilled',
-                    message
+                    [message]
                 ));
         },
         (err) => {
@@ -93,7 +122,7 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
                     intentName,
                     'Confirmed',
                     'Fulfilled',
-                    `I had trouble adding to your task list`
+                    [`I had trouble adding to your task list`]
                 ));
         }
     );

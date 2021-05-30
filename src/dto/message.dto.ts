@@ -17,8 +17,13 @@ export class Message implements IMessage {
 export class MessageBuilder {
 
     // Todo Fix to take multiple messages and push
-    constructor(message: Message) {
-        this.messages.push(message);
+    constructor(messages: string[]) {
+
+        for (const message of messages) {
+            const newMessage = new Message(message);
+            this.messages.push(newMessage);
+
+        }
     }
 
 

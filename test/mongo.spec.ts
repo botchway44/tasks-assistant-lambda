@@ -14,18 +14,18 @@ describe('Running TypeScript tests in ts-node runtime without compilation', () =
 
   beforeEach("Insert Items into the list", async () => {
     // insert task and verify if it works
-    const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
+    // const new_task = CreateNewTask("Test", new Date().toString(), new Date().getTime().toString());
 
     // expect(new_task.status).to.equal('NEW');
 
-    return mongoClient.addTask(new_task);
+    // return mongoClient.addTask(new_task);
 
   })
 
   it('Create a new Task and expect State To be New', async () => {
 
     // insert task and verify if it works
-    const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
+    // const new_task = CreateNewTask("Test", new Date().toString(), new Date().getTime().toString());
 
     // expect(new_task.status).to.equal('NEW');
 

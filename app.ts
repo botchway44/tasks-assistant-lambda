@@ -12,7 +12,7 @@ let mongoClient: MongoClientConnection;
 
 //account type
 app.get("/add", async (req: any, res: any) => {
-    const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
+    const new_task = CreateNewTask("Test", new Date().toString(), new Date().getTime().toString());
     await mongoClient.addTask(new_task)
 
     res.status("200").json(new_task);

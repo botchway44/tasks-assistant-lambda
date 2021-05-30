@@ -28,7 +28,7 @@ function delegate(session_attributes: any, slots: any) {
 // --------------- Events -----------------------
 function dispatch(intentRequest: any, callback: any) {
     // console.log(`request received for userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.intentName}`);
-    // console.log(`request received for ${JSON.stringify(intentRequest)}`);
+    console.log(` ${JSON.stringify(intentRequest)}`);
 
     console.log("Request received");
     const sessionAttributes = intentRequest.sessionState.sessionAttributes || {};

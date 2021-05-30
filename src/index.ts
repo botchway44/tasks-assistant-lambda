@@ -1,6 +1,6 @@
 import { ConfirmationState, State } from "./dto";
 import { createCloseResponseDTO, INTENTS } from "./utils"
-
+import { MongoClientConnection } from "./utils/"
 
 
 // Works for the V2 version of the Lex SDK client
@@ -58,7 +58,12 @@ function dispatch(intentRequest: any, callback: any) {
 
 // Route the incoming request based on intent.
 // The JSON body of the request is provided in the event slot.
-export const handler = (event: any, context: any, callback: any) => {
+export const handler = async (event: any, context: any, callback: any) => {
+
+    const mongoClient = new MongoClientConnection();
+
+    await mongoClient.connect()
+
     try {
         dispatch(event,
             (response: any) => {

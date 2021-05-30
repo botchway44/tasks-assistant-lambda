@@ -1,11 +1,10 @@
 import 'mocha';
 import { expect } from 'chai';
-import { hello } from './add.spec';
-import { MongoClientConnection } from '../src/utils'
+import { MongoClientConnection, CreateNewTask } from '../src/utils'
 
 describe('Running TypeScript tests in ts-node runtime without compilation', () => {
 
-  let mongoClient: any;
+  let mongoClient: MongoClientConnection;
   before(async () => {
     // init mongo and inserts mock data
     mongoClient = new MongoClientConnection();
@@ -13,17 +12,27 @@ describe('Running TypeScript tests in ts-node runtime without compilation', () =
   });
 
 
+  beforeEach("Insert Items into the list", async () => {
+    // insert task and verify if it works
+    const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
 
-  it('provides adder that adds two numbers', () => {
+    // expect(new_task.status).to.equal('NEW');
+
+    return mongoClient.addTask(new_task);
+
+  })
+
+  it('Create a new Task and expect State To be New', async () => {
 
     // insert task and verify if it works
+    const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
 
-    // return getAdder().then((add) => {
-    expect(hello()).to.equal("Hello World!");
-    // });
+    // expect(new_task.status).to.equal('NEW');
+
+    // return mongoClient.addTask(new_task);
+
+    // expect(hello()).to.equal("Hello`` World!");
+
   });
 
-  it('provides function that should return the same value that was passed', () => {
-    // expect(getNumber(3)).toBe(3);
-  });
 });

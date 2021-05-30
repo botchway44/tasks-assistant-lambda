@@ -1,3 +1,5 @@
+import { ITask } from "src/dto";
+
 const MongoClient = require('mongodb');
 const ObjectID = require('mongodb').ObjectID;
 require("dotenv").config();
@@ -32,7 +34,7 @@ export class MongoClientConnection {
 
     }
 
-    async addTask(task: any) {
+    async addTask(task: ITask) {
         return await this.tasks_collection.insertOne(task);
 
     }
@@ -43,5 +45,12 @@ export class MongoClientConnection {
     getTask(id: string) {
         return this.tasks_collection.findOne({ _id: ObjectID(id) });
     }
+
+
+    removeTask(id: string) {
+
+    }
+
+
 
 }

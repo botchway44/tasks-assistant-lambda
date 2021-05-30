@@ -1,7 +1,9 @@
 import { ConfirmationState, State } from "./dto";
-import { createCloseResponseDTO, INTENTS } from "./utils"
+import { createCloseResponseDTO, CreateNewTask, INTENTS } from "./utils"
 import { MongoClientConnection } from "./utils/"
 
+// init a new MongoClient
+let mongoClient: MongoClientConnection;
 
 // Works for the V2 version of the Lex SDK client
 // Close dialog with the customer, reporting fulfillmentState of Failed or Fulfilled ("Thanks, your pizza will arrive in 20 minutes")
@@ -38,17 +40,20 @@ function dispatch(intentRequest: any, callback: any) {
 
     if (intentName === INTENTS.ADDTASKS) {
         // Create a task list and insert asynchronously
+        const new_task = CreateNewTask("Test", "This is a test ", new Date().toString(), new Date().getTime().toString());
+        mongoClient.addTask(new_task).then(() => {
+            // callback to fullfill the intent list
+            callback(
+                close(
+                    sessionAttributes,
+                    slots,
+                    intentName,
+                    'Confirmed',
+                    'Fulfilled',
+                    `Task Added to your task list`
+                ));
+        })
 
-        // callback to fullfill the intent list
-        callback(
-            close(
-                sessionAttributes,
-                slots,
-                intentName,
-                'Confirmed',
-                'Fulfilled',
-                `Task Added to your task list`
-            ));
     }
 
 
@@ -60,7 +65,7 @@ function dispatch(intentRequest: any, callback: any) {
 // The JSON body of the request is provided in the event slot.
 export const handler = async (event: any, context: any, callback: any) => {
 
-    const mongoClient = new MongoClientConnection();
+    mongoClient = new MongoClientConnection();
 
     await mongoClient.connect()
 

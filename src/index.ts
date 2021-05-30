@@ -36,7 +36,7 @@ async function dispatch(intentRequest: any, callback: any) {
     const intentName = intentRequest.interpretations[0].intent.name;
     // var moviename = slots.name;
     // var whatInfo = slots.summary;
-    // console.log(`request received for Slots=${moviename}, ${whatInfo}`);
+    console.log(`Session sessionAttributes = ${sessionAttributes}`);
 
     if (intentName === INTENTS.ADDTASKS) {
         // Create a task list and insert asynchronously

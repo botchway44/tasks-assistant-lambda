@@ -4,6 +4,10 @@ const MongoClient = require('mongodb');
 const ObjectID = require('mongodb').ObjectID;
 require("dotenv").config();
 
+/**
+ * A thin MongoClientConnection Wrapper
+ * Todo : Make class generic, separate mongo specific from repository specific operations
+ */
 export class MongoClientConnection {
     public tasks_db_name = 'tasks';
     tasks_collection: any = null;
@@ -36,9 +40,22 @@ export class MongoClientConnection {
 
     async addTask(task: ITask) {
         return await this.tasks_collection.insertOne(task);
-
     }
+
+
+    async removeTask(task: ITask) {
+        return await this.tasks_collection.deleteOne({ id: task.id });
+    }
+
+    async updateTask(task: ITask) {
+        return await this.tasks_collection.updateOne({ id: task.id }, task);
+    }
+
     getAllTasks() {
+        return this.tasks_collection.find().toArray();
+    }
+
+    find(task: ITask) {
         return this.tasks_collection.find().toArray();
     }
 
@@ -47,9 +64,6 @@ export class MongoClientConnection {
     }
 
 
-    removeTask(id: string) {
-
-    }
 
 
 

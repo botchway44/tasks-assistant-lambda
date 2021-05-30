@@ -18,6 +18,7 @@ jobs:
           npm ci --if-present
           npm install -g typescript
           npm run build --if-present
+          cp node_modules/ -r dist/
         env:
           CI: true
       - name: Install zip

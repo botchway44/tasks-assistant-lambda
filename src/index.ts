@@ -116,7 +116,6 @@ async function dispatch(intentRequest: any, callback: any) {
     if (intentName === INTENTS.ADDTASKS) await handleAddTasksIntent(intentRequest, callback);
     else if (intentName === INTENTS.ALLTASKS) await handleAllTasksIntent(intentRequest, callback);
 
-
 }
 
 // --------------- Main handler -----------------------

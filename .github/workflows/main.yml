@@ -23,7 +23,7 @@ jobs:
       - name: Install zip
         uses: papeloto/action-zip@v1
         with:
-          files: dist/ package.json ./node_modules
+          files: package.json ./node_modules dist/
           recursive: true
           dest: bundle.zip
 

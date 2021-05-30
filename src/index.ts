@@ -26,13 +26,17 @@ function delegate(session_attributes: any, slots: any) {
 
 function buidTasksList(tasks: ITask[]): string[] {
 
-    const messages = [];
+    const messages = [
+        'Here are your tasks'
+    ];
+
 
     for (const task of tasks) {
         const message = `${task.name} is due ${task.due} at ${task.time} `;
         messages.push(message)
     }
 
+    messages.push('You can also ask for completed tasks')
     return messages;
 }
 

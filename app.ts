@@ -24,6 +24,12 @@ app.get("/all", async (req: any, res: any) => {
     res.status("200").json(tasks);
 });
 
+//account type
+app.get("/remove-all", async (req: any, res: any) => {
+    const tasks = await mongoClient.removeAllTasks();
+    res.status("200").json(tasks);
+});
+
 
 //index route
 app.post("/add", (req: any, res: any) => {

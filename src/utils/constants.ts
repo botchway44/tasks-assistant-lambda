@@ -3,5 +3,6 @@ export const INTENTS = {
     ALLTASKS: 'AllTasksIntent',
     COMPLETETASK: 'CompleteTaskIntent',
     COMPLETEDTASKS: 'CompletedTaskIntent',
+    REMOVEALLTASKS: 'RemoveAllTasksIntent'
 }
 

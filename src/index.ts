@@ -154,6 +154,41 @@ async function handleAddTasksIntent(intentRequest: any, callback: any) {
 }
 
 
+async function handleRemoveAllTasksIntent(intentRequest: any, callback: any) {
+    const sessionAttributes = {};
+    const slots = {};
+    const intentName = intentRequest.interpretations[0].intent.name;
+
+    await mongoClient.removeAllTasks().then(
+        (response) => {
+            callback(
+                close(
+                    sessionAttributes,
+                    slots,
+                    intentName,
+                    'Confirmed',
+                    'Fulfilled',
+                    [`I have cleared your task list.`]
+                ));
+        },
+        (err) => {
+            callback(
+                close(
+                    sessionAttributes,
+                    slots,
+                    intentName,
+                    'Confirmed',
+                    'Fulfilled',
+                    [`I had trouble clearing task list`]
+                ));
+        }
+    );
+
+
+
+}
+
+
 /**
  *  Handles Completing a Specified Task
  * @param intentRequest 
@@ -191,6 +226,7 @@ async function dispatch(intentRequest: any, callback: any) {
     if (intentName === INTENTS.ADDTASKS) await handleAddTasksIntent(intentRequest, callback);
     else if (intentName === INTENTS.ALLTASKS) await handleAllTasksIntent(intentRequest, callback);
     else if (intentName === INTENTS.COMPLETETASK) await handleCompleteTaskIntent(intentRequest, callback);
+    else if (intentName === INTENTS.REMOVEALLTASKS) await handleRemoveAllTasksIntent(intentRequest, callback);;
 
 }
 

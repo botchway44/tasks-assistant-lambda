@@ -1,3 +1,4 @@
+import { Collection } from "mongodb";
 import { ITask } from "src/dto";
 
 const MongoClient = require('mongodb');
@@ -10,10 +11,13 @@ require("dotenv").config();
  */
 export class MongoClientConnection {
     public tasks_db_name = 'tasks';
-    tasks_collection: any = null;
+    tasks_collection: any;
     mongo_url = process.env.MONGODB_URL;
 
     db_name = 'LexVoiceApp';
+
+    constructor() {
+    }
 
     connect() {
 
@@ -64,6 +68,9 @@ export class MongoClientConnection {
     }
 
 
+    async removeAllTasks() {
+        return await this.tasks_collection.deleteMany({});
+    }
 
 
 

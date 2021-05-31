@@ -8,10 +8,47 @@
 <!--- Describe your app in one or two sentences -->
 
 Amazons Lex conversational task manager
+Try it out on [facebook](https://web.facebook.com/Taskr) & [Slack](https://join.slack.com/t/slack-kpl6955/shared_invite/zt-r6vp4xkh-T66KquZE1dlgA258c2MA7A)
+
+#### Interaction with the Bot
+
+- Social intents - sample utterances for social interactions include
+
+```bash
+ - hello
+ - help me
+ - what do i have to do
+```
+
+- Creating a task - Sample utterances for creating a task include
+
+```bash
+ - add task
+ - create a new task
+ - add {task name} to my task list
+```
+
+<br>
+
+- Viewing all created task - sample utterances for viewing all created task include
+
+```bash
+ - all tasks
+ - where are my tasks
+ - show me my tasks list
+```
+
+- Deleting all created task - sample utterances for deleting all created task include
+
+```bash
+ - delete my task list
+ - remove everything on my task list
+ - clear all my tasks
+```
+
+#### Developers Giude
 
 This code only works with [version 2](https://docs.aws.amazon.com/lex/index.html) from the Developer Guide since there is a difference in the response payload in each version.
-
-Try it out on [facebook](https://web.facebook.com/Taskr) & [Slack](https://join.slack.com/t/slack-kpl6955/shared_invite/zt-r6vp4xkh-T66KquZE1dlgA258c2MA7A)
 
 ## License
 

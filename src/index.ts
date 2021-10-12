@@ -12,7 +12,7 @@ let mongoClient: MongoClientConnection;
 
 /**
  * Close dialog with the customer, reporting fulfillmentState of Failed or Fulfilled and the attached set of messages
- * @param sessionAttributes 
+ * @param sessionAttributes
  * @param slots 
  * @param intentName 
  * @param confirmationState 
@@ -26,13 +26,18 @@ function close(sessionAttributes: any, slots: any, intentName: string, confirmat
 
 
 
-function delegate(session_attributes: any, slots: any) {
+function delegate(intent_name : any,session_attributes: any, slots: any) {
     return {
         'sessionAttributes': session_attributes,
         'dialogAction': {
             'type': 'ElicitIntent',
             // 'slots': slots
-            'intentName':"AddTaskIntent"
+            'intentName':"AddaskIntent"
+        },
+        intent: {
+            'name': intent_name,
+            'confirmationState': 'Confirmed',
+            'state' : "Fulfilled"
         }
     };
 
@@ -98,7 +103,7 @@ async function handleAllTasksIntent(intentRequest: any, callback: any) {
     // }
 
 
-    return delegate(sessionAttributes, slots);
+    return delegate(intentName, sessionAttributes, slots);
 
 }
 

@@ -250,7 +250,11 @@ export const handler = async (event: any, context: any, callback: any) => {
     try {
         await dispatch(event,
             (response: any) => {
+                console.log(`Dispatch Response is ${JSON.stringify(response)}`);
+
                 callback(null, response);
+
+                console.log(`CALLBACK Response is ${JSON.stringify(response)}`);
             });
     } catch (err: any) {
         callback(err);

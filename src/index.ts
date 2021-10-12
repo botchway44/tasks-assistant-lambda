@@ -30,8 +30,9 @@ function delegate(session_attributes: any, slots: any) {
     return {
         'sessionAttributes': session_attributes,
         'dialogAction': {
-            'type': 'Delegate',
-            'slots': slots
+            'type': 'ElicitIntent',
+            // 'slots': slots
+            'intentName':"AddTaskIntent"
         }
     };
 
@@ -69,34 +70,35 @@ async function handleAllTasksIntent(intentRequest: any, callback: any) {
     const slots = intentRequest.interpretations[0].intent.slots || {};
     const intentName = intentRequest.interpretations[0].intent.name;
 
-    console.log(`Session sessionAttributes = ${sessionAttributes}`);
+    // console.log(`Session sessionAttributes = ${sessionAttributes}`);
 
-    const tasks: ITask[] = await mongoClient.getAllTasks();
+    // const tasks: ITask[] = await mongoClient.getAllTasks();
 
-    if (tasks && tasks.length > 0) {
-        const messages = buidTasksList(tasks);
-        callback(
-            close(
-                sessionAttributes,
-                slots,
-                intentName,
-                'Confirmed',
-                'Fulfilled',
-                messages
-            ));
-    } else {
-        callback(
-            close(
-                sessionAttributes,
-                slots,
-                intentName,
-                'Confirmed',
-                'Fulfilled',
-                ['You currently have no tasks', 'Give me a task to add to the list']
-            ));
-    }
+    // if (tasks && tasks.length > 0) {
+    //     const messages = buidTasksList(tasks);
+    //     callback(
+    //         close(
+    //             sessionAttributes,
+    //             slots,
+    //             intentName,
+    //             'Confirmed',
+    //             'Fulfilled',
+    //             messages
+    //         ));
+    // } else {
+    //     callback(
+    //         close(
+    //             sessionAttributes,
+    //             slots,
+    //             intentName,
+    //             'Confirmed',
+    //             'Fulfilled',
+    //             ['You currently have no tasks', 'Give me a task to add to the list']
+    //         ));
+    // }
 
 
+    return delegate(sessionAttributes, slots);
 
 }
 
@@ -226,7 +228,7 @@ async function dispatch(intentRequest: any, callback: any) {
     if (intentName === INTENTS.ADDTASKS) await handleAddTasksIntent(intentRequest, callback);
     else if (intentName === INTENTS.ALLTASKS) await handleAllTasksIntent(intentRequest, callback);
     else if (intentName === INTENTS.COMPLETETASK) await handleCompleteTaskIntent(intentRequest, callback);
-    else if (intentName === INTENTS.REMOVEALLTASKS) await handleRemoveAllTasksIntent(intentRequest, callback);;
+    else if (intentName === INTENTS.REMOVEALLTASKS) await handleRemoveAllTasksIntent(intentRequest, callback);
 
 }
 
